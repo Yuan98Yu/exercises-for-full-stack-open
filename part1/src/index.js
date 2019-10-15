@@ -15,10 +15,10 @@ const Button = ({str, clickHandler}) => {
   )
 }
 
-const NumDisplay = ({name, count}) => {
+const NumDisplay = ({name, num}) => {
   return (
     <p>
-      {name} {count}
+      {name} {num}
     </p>
   )
 }
@@ -28,21 +28,24 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  const increaseCount = (count, setCount) => () => setCount(count + 1) 
+  const increaseNum = (num, setNum) => () => setNum(num + 1) 
 
   return (
     <>
       <div>
       <Title str='give feedback' />
-        <Button str='good' clickHandler={increaseCount(good, setGood)} />
-        <Button str='neutral' clickHandler={increaseCount(neutral, setNeutral)} />
-        <Button str='bad' clickHandler={increaseCount(bad, setBad)} />
+        <Button str='good' clickHandler={increaseNum(good, setGood)} />
+        <Button str='neutral' clickHandler={increaseNum(neutral, setNeutral)} />
+        <Button str='bad' clickHandler={increaseNum(bad, setBad)} />
       </div>
       <div>
         <Title str='statistics' />
-        <NumDisplay name='good' count={good} />
-        <NumDisplay name='neutral' count={neutral} />
-        <NumDisplay name='bad' count={bad} />
+        <NumDisplay name='good' num={good} />
+        <NumDisplay name='neutral' num={neutral} />
+        <NumDisplay name='bad' num={bad} />
+        <NumDisplay name='all' num={good + neutral + bad} />
+        <NumDisplay name='average' num={(good-bad) / (good+neutral+bad)} />
+        <NumDisplay name='positive' num={good / (good+neutral+bad)} />
       </div>
     </>
   )
