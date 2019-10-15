@@ -1,62 +1,53 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Part = (props) => {
-    return (
-        <p>
-            {props.name} {props.exercises}
-        </p>
-    )
+const Title = ({str}) => {
+  return (
+    <h1>{str}</h1>
+  )
 }
 
-const Header = (props) => {
-    return (
-        <h1>{props.courseName}</h1>
-    )
+const Button = ({str, clickHandler}) => {
+  return (
+    <button onClick={clickHandler}>
+      {str}
+    </button>
+  )
 }
 
-const Content = (props) => {
-    return (
-        <>
-          <Part name={props.parts[0].name} exercises={props.parts[0].exercises} />
-          <Part name={props.parts[1].name} exercises={props.parts[1].exercises} />
-          <Part name={props.parts[2].name} exercises={props.parts[2].exercises} />
-        </>
-      )
-}
-
-const Summary = (props) => {
-    return (
-        <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises}</p>
-    )
+const NumDisplay = ({name, count}) => {
+  return (
+    <p>
+      {name} {count}
+    </p>
+  )
 }
 
 const App = () => {
-    const course = {
-        name: 'Half Stack application development',
-        parts: [
-          {
-            name: 'Fundamentals of React',
-            exercises: 10
-          },
-          {
-            name: 'Using props to pass data',
-            exercises: 7
-          },
-          {
-            name: 'State of a component',
-            exercises: 14
-          }
-        ]
-      }
+  // save clicks of each button to own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+  const increaseCount = (count, setCount) => () => setCount(count + 1) 
 
-    return (
-        <div>
-        <Header courseName={course.name} />
-        <Content parts={course.parts} />
-        <Summary parts={course.parts} />
-        </div>
-    )
+  return (
+    <>
+      <div>
+      <Title str='give feedback' />
+        <Button str='good' clickHandler={increaseCount(good, setGood)} />
+        <Button str='neutral' clickHandler={increaseCount(neutral, setNeutral)} />
+        <Button str='bad' clickHandler={increaseCount(bad, setBad)} />
+      </div>
+      <div>
+        <Title str='statistics' />
+        <NumDisplay name='good' count={good} />
+        <NumDisplay name='neutral' count={neutral} />
+        <NumDisplay name='bad' count={bad} />
+      </div>
+    </>
+  )
 }
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, 
+  document.getElementById('root')
+)
