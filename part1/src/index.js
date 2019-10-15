@@ -15,10 +15,10 @@ const Button = ({str, clickHandler}) => {
   )
 }
 
-const NumDisplay = ({name, num}) => {
+const Statistic = ({text, num}) => {
   return (
     <p>
-      {name} {num}
+      {text} {num}
     </p>
   )
 }
@@ -29,7 +29,7 @@ const Statistics = ({numList}) => {
       <Title str='statistics' />
       {
         numList.map(element => 
-            <NumDisplay name={element.name} num={element.num} key={element.name} />
+            <Statistic text={element.text} num={element.num} key={element.text} />
         )
       }
     </>
@@ -43,15 +43,18 @@ const App = () => {
   const [bad, setBad] = useState(0)
   const increaseNum = (num, setNum) => () => setNum(num + 1) 
 
-  let statisticsList = [
-    {name:'all', num:good+neutral+bad},
-    {name:'average', num:(good-bad) / (good+neutral+bad)},
-    {name:'positive', num: good / (good+neutral+bad)}
+  let statisticList = [
+    {text:'good', num:good},
+    {text:'neutral', num:neutral},
+    {text: 'bad', num:bad},
+    {text:'all', num:good+neutral+bad},
+    {text:'average', num:(good-bad) / (good+neutral+bad)},
+    {text:'positive', num: good / (good+neutral+bad)}
   ]
 
   let statistics = good+neutral+bad==0 ? 
     <p>"No feedback given"</p> : 
-    <Statistics numList={statisticsList} />
+    <Statistics numList={statisticList} />
 
 
   return (
