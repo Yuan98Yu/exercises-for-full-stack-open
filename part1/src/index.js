@@ -1,37 +1,49 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
-const Title = ({str}) => {
+const Title = ({text}) => {
   return (
-    <h1>{str}</h1>
+    <h1>{text}</h1>
   )
 }
 
-const Button = ({str, clickHandler}) => {
+const Button = ({text, clickHandler}) => {
   return (
     <button onClick={clickHandler}>
-      {str}
+      {text}
     </button>
   )
 }
 
-const Statistic = ({text, num}) => {
+const Buttons = ({buttonList}) => {
   return (
-    <p>
-      {text} {num}
-    </p>
+    <>
+      <Title text='give feedback' />
+      {
+        buttonList.map( element =>
+          <Button key={element.text} text={element.text} clickHandler={element.clickHandler} />
+        )
+      }
+    </>
   )
 }
 
 const Statistics = ({numList}) => {
   return (
     <>
-      <Title str='statistics' />
-      {
-        numList.map(element => 
-            <Statistic text={element.text} num={element.num} key={element.text} />
-        )
-      }
+      <Title text='statistics' />
+      <table>
+        <tbody>
+        {
+          numList.map(element => 
+            <tr key={element.text} > 
+              <td>{element.text}</td>
+              <td>{element.num}</td>
+            </tr>
+          )
+        }
+      </tbody>
+      </table>
     </>
   )
 }
@@ -43,6 +55,11 @@ const App = () => {
   const [bad, setBad] = useState(0)
   const increaseNum = (num, setNum) => () => setNum(num + 1) 
 
+  let buttonList = [
+    {text:'good', clickHandler:increaseNum(good, setGood) },
+    {text:'neutral', clickHandler:increaseNum(neutral, setNeutral) },
+    {text:'bad', clickHandler:increaseNum(bad, setBad) },
+  ]
   let statisticList = [
     {text:'good', num:good},
     {text:'neutral', num:neutral},
@@ -52,7 +69,7 @@ const App = () => {
     {text:'positive', num: good / (good+neutral+bad)}
   ]
 
-  let statistics = good+neutral+bad==0 ? 
+  let statistics = good+neutral+bad === 0 ? 
     <p>"No feedback given"</p> : 
     <Statistics numList={statisticList} />
 
@@ -60,10 +77,7 @@ const App = () => {
   return (
     <>
       <div>
-      <Title str='give feedback' />
-        <Button str='good' clickHandler={increaseNum(good, setGood)} />
-        <Button str='neutral' clickHandler={increaseNum(neutral, setNeutral)} />
-        <Button str='bad' clickHandler={increaseNum(bad, setBad)} />
+        <Buttons buttonList={buttonList} />
       </div>
       <div>        
         {statistics}
