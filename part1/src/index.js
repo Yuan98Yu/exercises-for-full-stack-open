@@ -23,12 +23,31 @@ const NumDisplay = ({name, num}) => {
   )
 }
 
+const Statistics = ({numList}) => {
+  return (
+    <>
+      <Title str='statistics' />
+      {
+        numList.map(element => 
+            <NumDisplay name={element.name} num={element.num} key={element.name} />
+        )
+      }
+    </>
+  )
+}
+
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
   const increaseNum = (num, setNum) => () => setNum(num + 1) 
+
+  let statisticsList = [
+    {name:'all', num:good+neutral+bad},
+    {name:'average', num:(good-bad) / (good+neutral+bad)},
+    {name:'positive', num: good / (good+neutral+bad)}
+  ]
 
   return (
     <>
@@ -39,13 +58,7 @@ const App = () => {
         <Button str='bad' clickHandler={increaseNum(bad, setBad)} />
       </div>
       <div>
-        <Title str='statistics' />
-        <NumDisplay name='good' num={good} />
-        <NumDisplay name='neutral' num={neutral} />
-        <NumDisplay name='bad' num={bad} />
-        <NumDisplay name='all' num={good + neutral + bad} />
-        <NumDisplay name='average' num={(good-bad) / (good+neutral+bad)} />
-        <NumDisplay name='positive' num={good / (good+neutral+bad)} />
+        <Statistics numList={statisticsList} />
       </div>
     </>
   )
