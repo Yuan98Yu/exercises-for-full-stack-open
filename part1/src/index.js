@@ -49,6 +49,11 @@ const App = () => {
     {name:'positive', num: good / (good+neutral+bad)}
   ]
 
+  let statistics = good+neutral+bad==0 ? 
+    <p>"No feedback given"</p> : 
+    <Statistics numList={statisticsList} />
+
+
   return (
     <>
       <div>
@@ -57,8 +62,8 @@ const App = () => {
         <Button str='neutral' clickHandler={increaseNum(neutral, setNeutral)} />
         <Button str='bad' clickHandler={increaseNum(bad, setBad)} />
       </div>
-      <div>
-        <Statistics numList={statisticsList} />
+      <div>        
+        {statistics}
       </div>
     </>
   )
