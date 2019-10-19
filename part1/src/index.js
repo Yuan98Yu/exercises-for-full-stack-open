@@ -23,7 +23,7 @@ const App = ({anecdotes}) => {
       next = Math.floor(Math.random()*anecdotes.length)
     } while (next === selected)
     setSelected (next)
-  }
+  }  
 
   return (
     <>
