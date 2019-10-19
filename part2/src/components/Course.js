@@ -1,7 +1,19 @@
 import React from 'react'
 
+const Statistic = ({course}) => {
+    const get_total = () => course.parts.reduce( (sum, part) => {
+        return sum + part.exercises
+    }, 0)
+
+    return (
+        <p><b>
+            total of {get_total()} exercises
+        </b></p>
+    )
+}
+
 const Course = ({course}) => {
-    const details = () => course.parts.map( part =>
+    const get_parts = () => course.parts.map( part =>
         <p key={part.id}>
             {part.name} {part.exercises}
         </p>
@@ -10,7 +22,8 @@ const Course = ({course}) => {
     return (
         <>
         <h1>{course.name}</h1>
-        {details()}
+        {get_parts()}
+        <Statistic course={course} />
         </>
     )
 }
