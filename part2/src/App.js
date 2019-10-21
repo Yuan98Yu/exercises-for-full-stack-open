@@ -4,8 +4,12 @@ import Persons from './components/Persons'
 const App = (props) => {
   const [ persons, setPersons] = useState(props.persons) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber] = useState('')
   const changeNewName = (event) => {
     setNewName(event.target.value)
+  }
+  const changeNewNumber = (event) => {
+    setNewNumber(event.target.value)
   }
   const addNewPerson = (event) => {
     event.preventDefault()
@@ -15,10 +19,12 @@ const App = (props) => {
     else {
       const personObject = {
         name: newName,
+        number: newNumber,
         id: persons.length
       }
       setPersons(persons.concat(personObject) )
       setNewName('')
+      setNewNumber('')
     }
   }
 
@@ -28,6 +34,9 @@ const App = (props) => {
       <form onSubmit={addNewPerson}>
         <div>
           name: <input value={newName} onChange={changeNewName} />
+        </div>
+        <div>
+          number: <input value={newNumber} onChange={changeNewNumber} />
         </div>
         <div>
           <button type="submit">add</button>
