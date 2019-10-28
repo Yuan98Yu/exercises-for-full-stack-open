@@ -1,14 +1,29 @@
 import React from 'react'
+import Button from './Button'
 
 const WarnAboutNum = () => <p>Too Many matches specify another filter</p>
 
-const CountryList = ({countries}) => {
-    const getCountryList = () => countries.map( country => <p key={country.id}> {country.name}</p> )
+const CountryList = ({countries, shows, setShows}) => {
+    
+    const handleClickShow = countryName => () => {
+        let clone = new Map(shows)
+        let isShow = shows.get(countryName)
+        clone.set(countryName, !isShow)
+        setShows(clone)
+        console.log(shows)
+    }
+    const getCountryList = () => 
+        countries.map( 
+            country => <li key={country.name}>
+                            {country.name} <Button name={shows.get(country.name)?'hide':'show'} onClick={handleClickShow(country.name)}/>
+                            {shows.get(country.name)?<CountryInfo country={country} />:<></>}
+                        </li> 
+        )
 
     return (
-        <>
+        <ul>
             {getCountryList()}
-        </>
+        </ul>
     )
 }
 

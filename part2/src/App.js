@@ -5,6 +5,7 @@ import CountryList, {WarnAboutNum, CountryInfo} from './components/Country'
 
 const App = () => {
     const [ countries, setCountries] = useState([])
+    const [ shows, setShows] = useState([])
     const [ filter, setFilter] = useState('') 
 
     useEffect(() => {
@@ -15,6 +16,7 @@ const App = () => {
             console.log('promise fulfilled')
             console.log(response.data)
             setCountries(response.data)
+            setShows(new Map( countries.map(country => [country.name, false]) ))
           })
       }, [filter])
 
@@ -29,7 +31,7 @@ const App = () => {
         }
         else if (countries.length < 10) {
             return (
-                <CountryList countries={countries} />
+                <CountryList countries={countries} shows={shows} setShows={setShows}/>
             )
         }
         else if(countries.length >= 10) {
