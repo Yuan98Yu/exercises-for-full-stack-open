@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from './Button'
-import personsService from '../service/persons'
 
 const Person = ({ person, handleDelete }) => {
     return (
@@ -8,19 +7,7 @@ const Person = ({ person, handleDelete }) => {
     )
 }
 
-const Persons = ({ persons, setPersons }) => {
-    const handleDelete = person => () => {
-        if (window.confirm(`delete ${person.name}?`)) {
-            personsService
-                .deleteItem(person.id)
-                .then( response => {
-                    console.log(response)
-                    let newPersons = persons.filter( oldPerson => oldPerson.id !== person.id )
-                    setPersons(newPersons)
-                })
-                .catch(error => alert(error))
-        }
-    }
+const Persons = ({ persons, setPersons, handleDelete}) => {
     const getPersons = () => persons.map(person => <Person key={person.id} person={person} handleDelete={handleDelete}/>)
 
 

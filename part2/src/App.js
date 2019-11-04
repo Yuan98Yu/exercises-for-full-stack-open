@@ -60,6 +60,21 @@ const App = (props) => {
                 .catch(error => alert(error))
         }
     }
+    const deletePerson = person => () => {
+        if (window.confirm(`delete ${person.name}?`)) {
+            personsService
+                .deleteItem(person.id)
+                .then( response => {
+                    console.log(response)
+                    let newPersons = persons.filter( oldPerson => oldPerson.id !== person.id )
+                    setPersons(newPersons)
+                    showNotification(`Delete information of ${person.name} succeeded`)
+                })
+                .catch(
+                    showNotification(`Information of ${person.name} has already been removed from server`)
+                )
+        }
+    }
 
     const personsToShow = () => persons.filter(person => person.name.includes(filter))
 
@@ -72,7 +87,7 @@ const App = (props) => {
             <NewPersonForm newName={newName} newNumber={newNumber} changeNewName={changeNewName}
                 changeNewNumber={changeNewNumber} addNewPerson={addNewPerson} />
             <h2>Numbers</h2>
-            <Persons persons={personsToShow()} setPersons={setPersons} />
+            <Persons persons={personsToShow()} setPersons={setPersons} handleDelete={deletePerson}/>
         </div>
     )
 }
