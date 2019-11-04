@@ -1,9 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'  // highlight-line
-import axios from 'axios'
+import personsService from './service/persons'
 
-axios.get('http://localhost:3001/persons').then(response => {
+personsService
+.getAll()
+.then(response => {
   const persons = response.data
   ReactDOM.render(
     <App persons={persons} />,

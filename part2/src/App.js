@@ -3,7 +3,7 @@ import Persons from './components/Persons'
 import NewPersonForm from './components/NewPersonForm'
 import FilterInput from './components/FilterInput'
 
-import axios from 'axios'
+import personsService from './service/persons'
 
 const App = (props) => {
   const [ persons, setPersons] = useState(props.persons) 
@@ -28,17 +28,16 @@ const App = (props) => {
       const personObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1
       }
-      axios
-      .post('http://localhost:3001/persons', personObject)
+      personsService
+      .create(personObject)
       .then(response => {
         console.log(response)
-        setPersons(persons.concat(personObject) )
+        setPersons(persons.concat(response.data))
         setNewName('')
         setNewNumber('')
       })
-      .catch( () => alert("fail to add new person"))
+      .catch( error => alert(error))
     }
   }
 
