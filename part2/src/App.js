@@ -1,52 +1,52 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
+import Persons from './components/Persons'
+import NewPersonForm from './components/NewPersonForm'
 import FilterInput from './components/FilterInput'
-import CountryList, {WarnAboutNum, CountryInfo} from './components/Country'
 
-const App = () => {
-    const [ countries, setCountries] = useState([])
-    const [ shows, setShows] = useState([])
-    const [ filter, setFilter] = useState('') 
-
-    useEffect(() => {
-        console.log('effect')
-        axios
-          .get(`https://restcountries.eu/rest/v2/name/${filter}`)
-          .then(response => {
-            console.log('promise fulfilled')
-            console.log(response.data)
-            setCountries(response.data)
-            setShows(new Map( countries.map(country => [country.name, false]) ))
-          })
-      }, [filter])
-
-    const changeFilter = (event) => {
-        setFilter(event.target.value)
+const App = (props) => {
+  const [ persons, setPersons] = useState(props.persons) 
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber] = useState('')
+  const [filter, setFilter] = useState('')
+  const changeNewName = (event) => {
+    setNewName(event.target.value)
+  }
+  const changeNewNumber = (event) => {
+    setNewNumber(event.target.value)
+  }
+  const changeFilter = (event) => {
+    setFilter(event.target.value)
+  }
+  const addNewPerson = (event) => {
+    event.preventDefault()
+    if ( persons.map(person => person.name).includes(newName) ) {
+      alert(`${newName} is already added to phonebook`)
     }
-    const getCountriesToShow = () => {
-        if (countries.length === 1) {
-            return (
-                <CountryInfo country={countries[0]} />
-            )
-        }
-        else if (countries.length < 10) {
-            return (
-                <CountryList countries={countries} shows={shows} setShows={setShows}/>
-            )
-        }
-        else if(countries.length >= 10) {
-            return (
-                <WarnAboutNum />
-            )
-        }
+    else {
+      const personObject = {
+        name: newName,
+        number: newNumber,
+        id: persons.length
+      }
+      setPersons(persons.concat(personObject) )
+      setNewName('')
+      setNewNumber('')
     }
+  }
 
-    return (
+  const personsToShow = () => persons.filter( person => person.name.includes(filter) )
+
+  return (
     <div>
-        <FilterInput filter={filter} changeFilter={changeFilter} />
-        {getCountriesToShow()}
+      <h2>Phonebook</h2>
+      <FilterInput filter={filter} changeFilter={changeFilter} />
+      <h2>Add a New</h2>
+      <NewPersonForm newName={newName} newNumber={newNumber} changeNewName={changeNewName} 
+        changeNewNumber={changeNewNumber} addNewPerson={addNewPerson} />
+      <h2>Numbers</h2>
+      <Persons persons={personsToShow()} />
     </div>
-    )
+  )
 }
 
 export default App
