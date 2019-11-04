@@ -3,6 +3,8 @@ import Persons from './components/Persons'
 import NewPersonForm from './components/NewPersonForm'
 import FilterInput from './components/FilterInput'
 
+import axios from 'axios'
+
 const App = (props) => {
   const [ persons, setPersons] = useState(props.persons) 
   const [ newName, setNewName ] = useState('')
@@ -26,11 +28,17 @@ const App = (props) => {
       const personObject = {
         name: newName,
         number: newNumber,
-        id: persons.length
+        id: persons.length + 1
       }
-      setPersons(persons.concat(personObject) )
-      setNewName('')
-      setNewNumber('')
+      axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        console.log(response)
+        setPersons(persons.concat(personObject) )
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch( () => alert("fail to add new person"))
     }
   }
 
