@@ -53,7 +53,8 @@ app.get('/api/persons/:id', (request, response, next) => {
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
-	Person.findByIdAndRemove(request.params.id)
+	Person
+		.findByIdAndRemove(request.params.id)
 		.then(result => {
 			response.status(204).end()
 		})
@@ -62,25 +63,34 @@ app.delete('/api/persons/:id', (request, response, next) => {
 
 app.post('/api/persons', (request, response) => {
 	const body = request.body
-	// if (!body.name || !body.number) {
-	// 	return response.status(400).json({
-	// 		error: 'name or number missing'
-	// 	})
-	// }
-	// if (persons.map(person => person.name).includes(body.name)) {
-	// 	return response.status(400).json({
-	// 		error: 'name must be unique'
-	// 	})
-	// }
 
 	const person = new Person({
 		name: body.name,
 		number: body.number,
 	})
 
-	person.save().then(savedPerson => {
-		response.json(savedPerson.toJSON())
-	})
+	Person
+		.save()
+		.then(savedPerson => {
+			response.json(savedPerson.toJSON())
+		})
+		.catch(error => console.log(error))
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+	const body = request.body
+
+	const person = {
+		name: body.name,
+		number: body.number,
+	}
+
+	Person
+		.findByIdAndUpdate(request.params.id, person, { new: true })
+		.then(updatedPerson => {
+			response.json(updatedPerson.toJSON())
+		})
+		.catch(error => next(error))
 })
 
 const PORT = process.env.PORT || 3001
