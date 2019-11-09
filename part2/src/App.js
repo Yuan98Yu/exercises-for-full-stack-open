@@ -44,7 +44,10 @@ const App = (props) => {
                         setPersons(newPersons)
                         showNotification(`Changed ${personObject.name}'s number from ${curPerson.number} to ${personObject.number}`)
                     })
-                    .catch(error => alert(error))
+                    .catch(error =>  {
+                        console.log(error)
+                        setErrorMessage(error.response.data.error)
+                    })
             }
         }
         else {
@@ -57,7 +60,10 @@ const App = (props) => {
                     setNewNumber('')
                     showNotification(`Added ${personObject.name}`)
                 })
-                .catch(error => alert(error))
+                .catch(error =>  {
+                    console.log(error.response.data)
+                    setErrorMessage(error.response.data.error)
+                })
         }
     }
     const deletePerson = person => () => {
