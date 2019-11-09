@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
-const cors = require("cors")
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 app.use(cors())
@@ -55,7 +55,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', (request, response, next) => {
 	Person
 		.findByIdAndRemove(request.params.id)
-		.then(result => {
+		.then( () => {
 			response.status(204).end()
 		})
 		.catch(error => next(error))
