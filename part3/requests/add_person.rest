@@ -5,3 +5,23 @@ content-type: application/json
     "name": "new",
     "number": "777-777777"
 }
+
+###
+
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "too",
+    "number": "777-777777"
+}
+
+###
+
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "t",
+    "number": "777-777777"
+}
