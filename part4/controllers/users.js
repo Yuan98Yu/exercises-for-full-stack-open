@@ -21,23 +21,25 @@ usersRouter.post('/', (request, response, next) => {
 		})
 	}
 
-	const saltRounds = 10
-	bcrypt
-		.hash(body.password, saltRounds)
-		.then(passwordHash => {
-			const user = new User({
-				username: body.username,
-				name: body.name,
-				passwordHash
-			})
-
-			user
-				.save()
-				.then(result => {
-					response.status(201).json(result)
+	else {
+		const saltRounds = 10
+		bcrypt
+			.hash(body.password, saltRounds)
+			.then(passwordHash => {
+				const user = new User({
+					username: body.username,
+					name: body.name,
+					passwordHash
 				})
-				.catch(error => next(error))
-		})
+	
+				user
+					.save()
+					.then(result => {
+						response.status(201).json(result)
+					})
+					.catch(error => next(error))
+			})
+	}
 
 
 })
