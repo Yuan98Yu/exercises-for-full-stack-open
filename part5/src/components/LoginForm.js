@@ -1,45 +1,31 @@
 import React from 'react'
-const LoginForm = ({ username, password, setUsername, setPassword, handleLogin }) => {
-	const handleLogin = async (event) => {
-		event.preventDefault()
-		try {
-			const user = await loginService.login({
-				username, password,
-			})
 
-			setUser(user)
-			setUsername('')
-			setPassword('')
-		} catch (exception) {
-			setErrorMessage('Wrong credentials')
-			setTimeout(() => {
-				setErrorMessage(null)
-			}, 5000)
-		}
-	}
-	
+const LoginForm = ({ username, password, setUsername, setPassword, setUser, handleLogin }) => {
 	return (
-		<form onSubmit={handleLogin}>
-			<div>
-				username
+		<>
+			<h2>log in to application</h2>
+			<form onSubmit={handleLogin}>
+				<div>
+					username
 				<input
-					type="text"
-					value={username}
-					name="Username"
-					onChange={({ target }) => setUsername(target.value)}
-				/>
-			</div>
-			<div>
-				password
+						type="text"
+						value={username}
+						name="Username"
+						onChange={({ target }) => setUsername(target.value)}
+					/>
+				</div>
+				<div>
+					password
 				<input
-					type="password"
-					value={password}
-					name="Password"
-					onChange={({ target }) => setPassword(target.value)}
-				/>
-			</div>
-			<button type="submit">login</button>
-		</form>
+						type="password"
+						value={password}
+						name="Password"
+						onChange={({ target }) => setPassword(target.value)}
+					/>
+				</div>
+				<button type="submit">login</button>
+			</form>
+		</>
 	)
 }
 
