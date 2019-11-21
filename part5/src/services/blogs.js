@@ -19,8 +19,24 @@ const create = newObject => {
 	return axios.post(baseUrl, newObject, config)
 }
 
+const update = (id, newObject) => {
+	const config = {
+		headers: { Authorization: token },
+	}
+	return axios.put(`${baseUrl}/${id}`, newObject, config)
+}
+
+const deleteItem = id => {
+	const config = {
+		headers: { Authorization: token },
+	}
+    return axios.delete(`${baseUrl}/${id}`, config)
+}
+
 export default {
 	getAll,
 	create,
+	update,
+	deleteItem,
 	setToken
 }
