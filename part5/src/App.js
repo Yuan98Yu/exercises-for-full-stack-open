@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-// import logo from './logo.svg';
-// import './App.css';
+import React, { useState, useEffect } from 'react'
+// import logo from './logo.svg'
+// import './App.css'
 import LoginForm from './components/LoginForm'
-import BlogForm from './components/BlogForm';
+import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -100,7 +100,7 @@ const App = props => {
 			blogService
 				.deleteItem(blog.id)
 				.then(() => {
-					showNotification("delete blog")
+					showNotification('delete blog')
 				})
 				.then( () => {
 					blogService
@@ -114,11 +114,11 @@ const App = props => {
 	}
 
 	return (
-		<div className="App">
+		<div className='App'>
 			<Notification message={errorMessage} />
 			{user === null ?
 				<LoginForm username={username} password={password}
-					setUsername={setUsername} setPassword={setPassword} setUser={setUser}
+					setUsername={setUsername} setPassword={setPassword}
 					handleLogin={handleLogin} /> :
 				(
 					<>
@@ -129,13 +129,13 @@ const App = props => {
 								setTitle={setTitle} setAuthor={setAuthor} setUrl={setUrl}
 								addBlog={addBlog} />
 						</Togglable>
-						<BlogList user={user} blogs={blogs} setBlogs={setBlogs} handleLike={handleLike} deleteBlog={deleteBlog} />
+						<BlogList user={user} blogs={blogs} handleLike={handleLike} deleteBlog={deleteBlog} />
 					</>
 				)
 			}
 
 		</div >
-	);
+	)
 }
 
-export default App;
+export default App
